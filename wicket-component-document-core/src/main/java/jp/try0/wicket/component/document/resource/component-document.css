@@ -1,0 +1,20 @@
+
+.cdoc-tooltip-container {
+    padding: .3rem;
+    color: white;
+    min-width: 10em;
+    text-align: center;
+    box-shadow: 3px 3px 8px 0 rgb(0 0 0 / 50%);
+    border-radius: 5px;
+    z-index: 99999
+}
+
+.cdoc-tooltip-container:hover {
+    border: solid 2px #b8b8b8;
+}
+
+.cdoc-tooltip-container a {
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+}

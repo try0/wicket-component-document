@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wicket-component-document</title>
+
+<wicket:header-items/>
+
+<!-- semantic.css  -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.0/semantic.min.css">
+<!-- semantic.js  -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.0/semantic.min.js"></script>
+
+
+<style type="text/css">
+.main {
+	padding-top: 4rem;
+	max-width: 650px;
+}
+</style>
+</head>
+<body>
+	<div class="ui fixed inverted blue menu">
+		<div class="ui container">
+			<div class="header item">wicket-component-document</div>
+
+			<div class="right menu">
+				<a class="item" target="blank"
+					href="https://github.com/try0/wicket-component-document"><i
+					class="github large icon"></i></a>
+			</div>
+		</div>
+	</div>
+
+	<div class="ui container main" style="max-width: 800px !important;">
+
+		<div class="ui message">
+			Assists in browsing documents related to components.<br> You can
+			check the output url on the console of the developer tools.
+		</div>
+
+		<label wicket:id="version"></label>
+
+		<div wicket:id="samplePanel" class="ui segment"></div>
+
+	</div>
+</body>
+</html>
