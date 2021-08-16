@@ -41,7 +41,7 @@ public class WicketApplication extends WebApplication {
 					.setDefaultOption(defaultOption)
 					// wicket-component-document-samples component document
 					.addBaseUrl("jp.try0.wicket",
-							"https://github.com/try0/wicket-component-document/tree/main/wicket-component-document-core/src/main/java/")
+							"https://github.com/try0/wicket-component-document/tree/main/wicket-component-document-samples/src/main/java/")
 					// wicket component document
 					.addBaseUrl("org.apache.wicket",
 							"https://github.com/apache/wicket/tree/wicket-8.x/wicket-core/src/main/java/")
