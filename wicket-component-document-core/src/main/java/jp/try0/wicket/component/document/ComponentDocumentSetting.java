@@ -1,7 +1,9 @@
 package jp.try0.wicket.component.document;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.wicket.Application;
@@ -37,7 +39,7 @@ public class ComponentDocumentSetting {
 		/**
 		 * URL prefix list
 		 */
-		private Map<String, String> baseUrls = new HashMap<>();
+		private Map<String, Set<String>> baseUrls = new HashMap<>();
 		/**
 		 * Default option value
 		 */
@@ -50,19 +52,7 @@ public class ComponentDocumentSetting {
 		/**
 		 * Url attribute appender
 		 */
-		private DocumentUrlAppender urlAppender = new DocumentUrlAppender(component -> {
-
-			String className = component.getClass().getName();
-
-			ComponentDocumentSetting setting = ComponentDocumentSetting.get();
-			for (Map.Entry<String, String> packageName : setting.baseUrls.entrySet()) {
-				if (className.startsWith(packageName.getKey())) {
-					return packageName.getValue();
-				}
-			}
-
-			return "";
-		});
+		private DocumentUrlAppender urlAppender = new DocumentUrlAppender();
 
 		Initializer setApplication(Application application) {
 			this.application = application;
@@ -75,7 +65,9 @@ public class ComponentDocumentSetting {
 		}
 
 		public Initializer addBaseUrl(String prefixPackageName, String baserUrl) {
-			this.baseUrls.put(prefixPackageName, baserUrl);
+
+			Set<String> urls = this.baseUrls.computeIfAbsent(prefixPackageName, k -> new HashSet<>());
+			urls.add(baserUrl);
 			return this;
 		}
 
@@ -136,7 +128,7 @@ public class ComponentDocumentSetting {
 	 * key: Package name<br>
 	 * val: Base url
 	 */
-	private Map<String, String> baseUrls = new HashMap<>();
+	private Map<String, Set<String>> baseUrls = new HashMap<>();
 
 	/**
 	 * Behavior factory
@@ -151,8 +143,12 @@ public class ComponentDocumentSetting {
 		return urlAppender;
 	}
 
-	public String getBaseUrl(String key) {
-		return baseUrls.getOrDefault(key, "");
+	public Set<String> getBaseUrls(String packagePrefix) {
+		return baseUrls.computeIfAbsent(packagePrefix, key -> new HashSet<>());
+	}
+
+	public Map<String, Set<String>> getBaseUrls() {
+		return baseUrls;
 	}
 
 	public ComponentDocumentOption getDefaultOption() {
@@ -201,7 +197,11 @@ public class ComponentDocumentSetting {
 	}
 
 	public static String getUrl(Class<?> clazz) {
-		return clazz.getName().replaceAll(Pattern.quote("."), "/") + ".java";
+		return getUrl(clazz, "java");
+	}
+
+	public static String getUrl(Class<?> clazz, String suffix) {
+		return clazz.getName().replaceAll(Pattern.quote("."), "/") + "." + suffix;
 	}
 
 }

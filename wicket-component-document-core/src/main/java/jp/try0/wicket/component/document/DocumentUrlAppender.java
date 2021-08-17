@@ -1,5 +1,11 @@
 package jp.try0.wicket.component.document;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.application.IComponentInstantiationListener;
@@ -12,52 +18,75 @@ import org.danekja.java.util.function.serializable.SerializableFunction;
  *
  */
 public class DocumentUrlAppender implements IComponentInstantiationListener {
+	static final Set<String> EMPTY_SET = Collections.unmodifiableSet(new HashSet<>());
 
-	public static interface BaseUrlFactory extends SerializableFunction<Component, String> {
-		static String toEmpty(Component component) {
-			return "";
-		}
+	public static interface BaseUrlFactory extends SerializableFunction<Component, Set<String>> {
 	}
-
-	private BaseUrlFactory baseUrlFactory = BaseUrlFactory::toEmpty;
 
 	public DocumentUrlAppender() {
 	}
 
-	public DocumentUrlAppender(BaseUrlFactory baseUrlFactory) {
-		this.baseUrlFactory = baseUrlFactory;
-	}
-
 	@Override
 	public void onInstantiation(Component component) {
-		String baseUrl = baseUrlFactory.apply(component);
-
-		String url;
-		if (baseUrl == null || baseUrl.isEmpty()) {
-			url = getComponentPath(component);
-		} else {
-			url = baseUrl + (baseUrl.endsWith("/") ? "" : "/") + getComponentPath(component);
-		}
 
 		ComponentDocumentSetting setting = ComponentDocumentSetting.get();
+		Set<String> baseUrls = getBaseUrls(component);
 
 		String attrName = setting.getDefaultOption().getUrlAttributeName();
 		if (attrName == null || attrName.isEmpty()) {
 			attrName = ComponentDocumentOption.DEFAULT_URL_ATTRIBUTE_NAME;
 		}
-		component.add(AttributeModifier.append("data-cdoc-url", url));
+
+		String attrValue = baseUrls.stream().map(baseUrl -> getComponentDocumentUrl(baseUrl, component))
+				.collect(Collectors.joining(setting.getDefaultOption().getUrlDelimiterOrDefault()));
+
+		component.add(AttributeModifier.append(attrName, attrValue));
 	}
 
+	/**
+	 * Gets document url of arg component.
+	 *
+	 * @param baseUrl
+	 * @param component
+	 * @return
+	 */
+	protected String getComponentDocumentUrl(String baseUrl, Component component) {
+		if (baseUrl == null || baseUrl.isEmpty()) {
+			return getComponentPath(component);
+		} else {
+			return baseUrl + (baseUrl.endsWith("/") ? "" : "/") + getComponentPath(component);
+		}
+	}
+
+	/**
+	 * Converts component to path.
+	 *
+	 * @param component
+	 * @return
+	 */
 	protected String getComponentPath(Component component) {
 		return ComponentDocumentSetting.getUrl(component.getClass());
 	}
 
-	public BaseUrlFactory getBaseUrlFactory() {
-		return baseUrlFactory;
-	}
+	/**
+	 * Gets base urls.
+	 *
+	 * @param component
+	 * @return
+	 */
+	protected Set<String> getBaseUrls(Component component) {
+		String className = component.getClass().getName();
 
-	public void setBaseUrlFactory(BaseUrlFactory baseUrlFactory) {
-		this.baseUrlFactory = baseUrlFactory;
+		ComponentDocumentSetting setting = ComponentDocumentSetting.get();
+
+		for (Map.Entry<String, Set<String>> packageUrls : setting.getBaseUrls().entrySet()) {
+
+			if (className.startsWith(packageUrls.getKey())) {
+				return packageUrls.getValue();
+			}
+		}
+
+		return EMPTY_SET;
 	}
 
 }

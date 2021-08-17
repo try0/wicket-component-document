@@ -1,5 +1,6 @@
 package jp.try0.wicket.component.document.samples;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -7,6 +8,7 @@ import org.apache.wicket.resource.JQueryResourceReference;
 
 import jp.try0.wicket.component.document.ComponentDocumentOption;
 import jp.try0.wicket.component.document.ComponentDocumentSetting;
+import jp.try0.wicket.component.document.DocumentUrlAppender;
 
 /**
  * Application object for your web application.
@@ -45,6 +47,21 @@ public class WicketApplication extends WebApplication {
 					// wicket component document
 					.addBaseUrl("org.apache.wicket",
 							"https://github.com/apache/wicket/tree/wicket-8.x/wicket-core/src/main/java/")
+					// wicket javadoc
+					.addBaseUrl("org.apache.wicket",
+							"https://javadoc.io/doc/org.apache.wicket/wicket-core/8.13.0/")
+					.setUrlAppender(new DocumentUrlAppender() {
+						@Override
+						protected String getComponentDocumentUrl(String baseUrl, Component component) {
+
+							String url = super.getComponentDocumentUrl(baseUrl, component);
+							if (baseUrl.startsWith("https://javadoc.io")) {
+								url = url.replaceAll("java$", "html");
+							}
+
+							return url;
+						}
+					})
 					.initialize();
 		}
 

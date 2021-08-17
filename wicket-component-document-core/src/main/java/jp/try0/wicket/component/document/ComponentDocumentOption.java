@@ -11,7 +11,9 @@ import java.io.Serializable;
 public class ComponentDocumentOption implements Serializable {
 
 	public static final String DEFAULT_URL_ATTRIBUTE_NAME = "data-cdoc-url";
-	
+
+	public static final String DEFAULT_URL_DELIMITER = "|";
+
 	/**
 	 * Url attribute name
 	 */
@@ -38,12 +40,20 @@ public class ComponentDocumentOption implements Serializable {
 		return urlAttributeName;
 	}
 
+	public String getUrlAttributeNameOrDefault() {
+		return isNullOrEmpty(urlAttributeName) ? DEFAULT_URL_ATTRIBUTE_NAME : urlAttributeName;
+	}
+
 	public void setUrlAttributeName(String urlAttributeName) {
 		this.urlAttributeName = urlAttributeName;
 	}
 
 	public String getUrlDelimiter() {
 		return urlDelimiter;
+	}
+
+	public String getUrlDelimiterOrDefault() {
+		return isNullOrEmpty(urlDelimiter) ? DEFAULT_URL_DELIMITER : urlDelimiter;
 	}
 
 	public void setUrlDelimiter(String urlDelimiter) {
