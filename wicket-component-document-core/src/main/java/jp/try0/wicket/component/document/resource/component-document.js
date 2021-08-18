@@ -37,16 +37,16 @@ function ComponentDocument() {
      *
      * @param {} options
      */
-    this.initialize = function(options = {}) {
+    this.initialize = function (options = {}) {
 
         // init options
         this_.setOptions(options);
 
         if (activeWhilePressingAltKey) {
-            document.addEventListener("keydown", function(e) {
+            document.addEventListener("keydown", function (e) {
                 active = e.altKey;
             });
-            document.addEventListener("keyup", function(e) {
+            document.addEventListener("keyup", function (e) {
                 active = e.altKey;
             });
         } else {
@@ -62,7 +62,7 @@ function ComponentDocument() {
             const urlAttrValue = targetComponent.getAttribute(urlAttributeName);
             const urls = urlAttrValue.split(urlDelimiter);
 
-            targetComponent.addEventListener("mouseover", function(e) {
+            targetComponent.addEventListener("mouseover", function (e) {
 
                 e.stopPropagation();
 
@@ -71,7 +71,7 @@ function ComponentDocument() {
                 }
 
                 if (outputLog) {
-                    for (var urlI = 0; urlI < urls.length; urlI++ ) {
+                    for (var urlI = 0; urlI < urls.length; urlI++) {
                         const url = urls[urlI];
                         console.log(url);
                     }
@@ -81,7 +81,7 @@ function ComponentDocument() {
                     return;
                 }
 
-                const dispTooltips = document.querySelectorAll('.cdoc-tooltip-container');
+                const dispTooltips = document.querySelectorAll(".cdoc-tooltip-container");
                 for (var dtI = 0; dtI < dispTooltips.length; dtI++) {
                     var removeTarget = dispTooltips[dtI];
                     if (removeTarget.parentElement) {
@@ -99,9 +99,9 @@ function ComponentDocument() {
                 tooltipContainer.style.top = y + 10 + "px";
                 tooltipContainer.className = "cdoc-tooltip-container";
 
-                tooltipContainer.addEventListener("mouseout", function(e) {
-                    setTimeout(function() {
-                        const isHovered = document.querySelectorAll('.cdoc-tooltip-container:hover').length != 0;
+                tooltipContainer.addEventListener("mouseout", function (e) {
+                    setTimeout(function () {
+                        const isHovered = document.querySelectorAll(".cdoc-tooltip-container:hover").length != 0;
                         if (!isHovered && tooltipContainer.parentElement) {
                             tooltipContainer.parentElement.removeChild(tooltipContainer);
                         }
@@ -109,12 +109,13 @@ function ComponentDocument() {
                 });
 
 
-                for (var urlI = 0; urlI < urls.length; urlI++ ) {
+                for (var urlI = 0; urlI < urls.length; urlI++) {
                     const url = urls[urlI];
                     const tooltipLink = document.createElement("a");
                     tooltipLink.setAttribute("href", url);
                     tooltipLink.text = this_.getTooltipLabel(url);
                     tooltipLink.target = "_blank";
+                    tooltipLink.rel = "noopener noreferrer";
 
                     tooltipContainer.appendChild(tooltipLink);
                 }
@@ -123,9 +124,9 @@ function ComponentDocument() {
 
                 bodyComponent.appendChild(tooltipContainer);
 
-                targetComponent.addEventListener("mouseout", function(e) {
-                    setTimeout(function() {
-                        const isHovered = document.querySelectorAll('.cdoc-tooltip-container:hover').length != 0;
+                targetComponent.addEventListener("mouseout", function (e) {
+                    setTimeout(function () {
+                        const isHovered = document.querySelectorAll(".cdoc-tooltip-container:hover").length != 0;
                         if (!isHovered && tooltipContainer.parentElement) {
                             tooltipContainer.parentElement.removeChild(tooltipContainer);
                         }
@@ -140,29 +141,29 @@ function ComponentDocument() {
      *
      * @param {} options
      */
-    this.setOptions = function(options) {
+    this.setOptions = function (options) {
 
         if (options === undefined) {
             return;
         }
 
-        if (options['urlAttributeName'] !== undefined) {
-            urlAttributeName = options['urlAttributeName'];
+        if (options["urlAttributeName"] !== undefined) {
+            urlAttributeName = options["urlAttributeName"];
         }
-        if (options['descriptionAttributeName'] !== undefined) {
-            descriptionAttributeName = options['descriptionAttributeName'];
+        if (options["descriptionAttributeName"] !== undefined) {
+            descriptionAttributeName = options["descriptionAttributeName"];
         }
-        if (options['urlDelimiter'] !== undefined) {
-            urlDelimiter = options['urlDelimiter'];
+        if (options["urlDelimiter"] !== undefined) {
+            urlDelimiter = options["urlDelimiter"];
         }
-        if (options['outputLog'] !== undefined) {
-            outputLog = options['outputLog'];
+        if (options["outputLog"] !== undefined) {
+            outputLog = options["outputLog"];
         }
-        if (options['tooltip'] !== undefined) {
-            tooltip = options['tooltip'];
+        if (options["tooltip"] !== undefined) {
+            tooltip = options["tooltip"];
         }
-        if (options['activeWhilePressingAltKey'] !== undefined) {
-            activeWhilePressingAltKey = options['activeWhilePressingAltKey'];
+        if (options["activeWhilePressingAltKey"] !== undefined) {
+            activeWhilePressingAltKey = options["activeWhilePressingAltKey"];
         }
 
     }
@@ -170,13 +171,13 @@ function ComponentDocument() {
     /**
      * Outputs all urls.
      */
-    this.logAllUrls = function() {
+    this.logAllUrls = function () {
         const cdocElements = this.getCdocElements();
         for (var i = 0; i < cdocElements.length; i++) {
             const targetComponent = cdocElements[i];
             const urlAttrValue = targetComponent.getAttribute(urlAttributeName);
             const urls = urlAttrValue.split(urlDelimiter);
-            for (var urlI = 0; urlI < urls.length; urlI++ ) {
+            for (var urlI = 0; urlI < urls.length; urlI++) {
                 const url = urls[urlI];
                 console.log(url);
             }
@@ -186,8 +187,8 @@ function ComponentDocument() {
     /**
      * Gets the elements with attributes
      */
-    this.getCdocElements = function() {
-        const cdocElements = document.querySelectorAll('[' + urlAttributeName + ']');
+    this.getCdocElements = function () {
+        const cdocElements = document.querySelectorAll("[" + urlAttributeName + "]");
         return cdocElements;
     }
 
@@ -197,7 +198,7 @@ function ComponentDocument() {
      * @param  url 
      * @returns 
      */
-    this.getTooltipLabel = function(url) {
+    this.getTooltipLabel = function (url) {
         return this.extractDomainName(url);
     }
 
@@ -206,17 +207,17 @@ function ComponentDocument() {
      * @param url 
      * @returns 
      */
-    this.extractDomainName = function(url) {
+    this.extractDomainName = function (url) {
         var domain;
 
         if (url.indexOf("://") > -1) {
-            domain = url.split('/')[2];
+            domain = url.split("/")[2];
         } else {
-            domain = url.split('/')[0];
+            domain = url.split("/")[0];
         }
-        
-        domain = domain.split(':')[0];
-        domain = domain.split('?')[0];
+
+        domain = domain.split(":")[0];
+        domain = domain.split("?")[0];
         return domain;
     }
 
