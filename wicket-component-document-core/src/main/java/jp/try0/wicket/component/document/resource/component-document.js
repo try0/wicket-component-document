@@ -1,14 +1,19 @@
 /**
- *
+ * ComponentDocument
  */
 function ComponentDocument() {
 
-    const this_ = this;
+    const cdoc = this;
+    const util = new ComponentDocumentUtil;
 
     /**
      * Url attribute name
      */
     var urlAttributeName = "data-cdoc-url";
+    /**
+     * Description attribute name
+     */
+    var descriptionAttributeName = "data-cdoc-desc"
     /**
      * Url delimiter
      */
@@ -33,14 +38,14 @@ function ComponentDocument() {
 
 
     /**
-     * Initialize ComponentDocument
+     * Initializes ComponentDocument.
      *
      * @param {} options
      */
     this.initialize = function (options = {}) {
 
         // init options
-        this_.setOptions(options);
+        cdoc.setOptions(options);
 
         if (activeWhilePressingAltKey) {
             document.addEventListener("keydown", function (e) {
@@ -53,24 +58,28 @@ function ComponentDocument() {
             active = true;
         }
 
-        const cdocElements = this_.getCdocElements();
+        const cdocElements = cdoc.getCdocElements();
         const bodyComponent = document.getElementsByTagName("body")[0];
 
         for (var i = 0; i < cdocElements.length; i++) {
             const targetComponent = cdocElements[i];
 
+            const descriptionAttrValue = targetComponent.getAttribute(descriptionAttributeName);
             const urlAttrValue = targetComponent.getAttribute(urlAttributeName);
             const urls = urlAttrValue.split(urlDelimiter);
 
             targetComponent.addEventListener("mouseover", function (e) {
-
                 e.stopPropagation();
 
                 if (!active) {
                     return;
                 }
 
+                // log
                 if (outputLog) {
+                    if (!util.isNullOrUndefined(descriptionAttrValue)) {
+                        console.log(descriptionAttrValue);
+                    }
                     for (var urlI = 0; urlI < urls.length; urlI++) {
                         const url = urls[urlI];
                         console.log(url);
@@ -81,17 +90,14 @@ function ComponentDocument() {
                     return;
                 }
 
-                const dispTooltips = document.querySelectorAll(".cdoc-tooltip-container");
-                for (var dtI = 0; dtI < dispTooltips.length; dtI++) {
-                    var removeTarget = dispTooltips[dtI];
-                    if (removeTarget.parentElement) {
-                        removeTarget.parentElement.removeChild(removeTarget);
-                    }
-                }
+                // show tooltip
+
+                cdoc.removeAllTooltips();
 
                 const x = this.getBoundingClientRect().left + window.pageXOffset;
                 const y = this.getBoundingClientRect().top + window.pageYOffset;
 
+                // container
                 const tooltipContainer = document.createElement("div");
                 tooltipContainer.style.position = "absolute";
                 tooltipContainer.style.background = "rgb(32 142 228)";
@@ -108,19 +114,25 @@ function ComponentDocument() {
                     }, 1500);
                 });
 
-
+                // link
                 for (var urlI = 0; urlI < urls.length; urlI++) {
                     const url = urls[urlI];
                     const tooltipLink = document.createElement("a");
                     tooltipLink.setAttribute("href", url);
-                    tooltipLink.text = this_.getTooltipLabel(url);
+                    tooltipLink.text = cdoc.getTooltipLabel(url);
                     tooltipLink.target = "_blank";
                     tooltipLink.rel = "noopener noreferrer";
 
                     tooltipContainer.appendChild(tooltipLink);
                 }
 
-
+                // description text
+                if (!util.isNullOrUndefined(descriptionAttrValue)) {
+                    const descriptionArea = document.createElement("div");
+                    descriptionArea.textContent = descriptionAttrValue;
+                    descriptionArea.className = "desc";
+                    tooltipContainer.appendChild(descriptionArea);
+                }
 
                 bodyComponent.appendChild(tooltipContainer);
 
@@ -143,26 +155,26 @@ function ComponentDocument() {
      */
     this.setOptions = function (options) {
 
-        if (options === undefined) {
+        if (util.isNullOrUndefined(options)) {
             return;
         }
 
-        if (options["urlAttributeName"] !== undefined) {
+        if (!util.isNullOrUndefined(options["urlAttributeName"])) {
             urlAttributeName = options["urlAttributeName"];
         }
-        if (options["descriptionAttributeName"] !== undefined) {
+        if (!util.isNullOrUndefined(options["descriptionAttributeName"])) {
             descriptionAttributeName = options["descriptionAttributeName"];
         }
-        if (options["urlDelimiter"] !== undefined) {
+        if (!util.isNullOrUndefined(options["urlDelimiter"])) {
             urlDelimiter = options["urlDelimiter"];
         }
-        if (options["outputLog"] !== undefined) {
+        if (!util.isNullOrUndefined(options["outputLog"])) {
             outputLog = options["outputLog"];
         }
-        if (options["tooltip"] !== undefined) {
+        if (!util.isNullOrUndefined(options["tooltip"])) {
             tooltip = options["tooltip"];
         }
-        if (options["activeWhilePressingAltKey"] !== undefined) {
+        if (!util.isNullOrUndefined(options["activeWhilePressingAltKey"])) {
             activeWhilePressingAltKey = options["activeWhilePressingAltKey"];
         }
 
@@ -175,6 +187,11 @@ function ComponentDocument() {
         const cdocElements = this.getCdocElements();
         for (var i = 0; i < cdocElements.length; i++) {
             const targetComponent = cdocElements[i];
+            const descriptionAttrValue = targetComponent.getAttribute(descriptionAttributeName);
+            if (!util.isNullOrUndefined(descriptionAttrValue)) {
+                console.log(descriptionAttrValue);
+            }
+
             const urlAttrValue = targetComponent.getAttribute(urlAttributeName);
             const urls = urlAttrValue.split(urlDelimiter);
             for (var urlI = 0; urlI < urls.length; urlI++) {
@@ -185,7 +202,20 @@ function ComponentDocument() {
     }
 
     /**
-     * Gets the elements with attributes
+     * Removes all tooltip elements.
+     */
+    this.removeAllTooltips = function () {
+        const dispTooltips = document.querySelectorAll(".cdoc-tooltip-container");
+        for (var i = 0; i < dispTooltips.length; i++) {
+            const removeTarget = dispTooltips[i];
+            if (removeTarget.parentElement) {
+                removeTarget.parentElement.removeChild(removeTarget);
+            }
+        }
+    }
+
+    /**
+     * Gets the elements with attributes.
      */
     this.getCdocElements = function () {
         const cdocElements = document.querySelectorAll("[" + urlAttributeName + "]");
@@ -199,27 +229,40 @@ function ComponentDocument() {
      * @returns 
      */
     this.getTooltipLabel = function (url) {
-        return this.extractDomainName(url);
+        return util.extractDomainName(url);
     }
+
 
     /**
-     * 
-     * @param url 
-     * @returns 
+     * Utilities
      */
-    this.extractDomainName = function (url) {
-        var domain;
+    function ComponentDocumentUtil() {
+        
+        /**
+         * Extracts domain name.
+         * 
+         * @param url 
+         * @returns 
+         */
+        this.extractDomainName = function (url) {
+            var domain;
 
-        if (url.indexOf("://") > -1) {
-            domain = url.split("/")[2];
-        } else {
-            domain = url.split("/")[0];
+            if (url.indexOf("://") > -1) {
+                domain = url.split("/")[2];
+            } else {
+                domain = url.split("/")[0];
+            }
+
+            domain = domain.split(":")[0];
+            domain = domain.split("?")[0];
+            return domain;
         }
 
-        domain = domain.split(":")[0];
-        domain = domain.split("?")[0];
-        return domain;
+        this.isNullOrUndefined = function (obj) {
+            return obj === undefined || obj === null;
+        };
     }
+
 
 }
 

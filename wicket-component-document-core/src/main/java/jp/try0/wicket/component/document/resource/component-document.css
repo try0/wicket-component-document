@@ -1,11 +1,11 @@
 
 .cdoc-tooltip-container {
-    padding: .3rem;
+    padding: .4em;
     color: white;
     min-width: 10em;
     text-align: center;
     box-shadow: 3px 3px 8px 0 rgb(0 0 0 / 50%);
-    border-radius: 5px;
+    border-radius: .3em;
     z-index: 99999
 }
 
@@ -15,6 +15,14 @@
 
 .cdoc-tooltip-container a {
     color: white;
-    text-decoration: none;
-    padding: 5px;
+    text-decoration-line: none;
+    cursor: pointer !important;
+    padding: .2em;
+}
+
+.cdoc-tooltip-container .desc {
+    color: rgb(212, 212, 212);
+    font-size: .9em;
+    text-align: left;
+    padding: .2em;
 }
