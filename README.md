@@ -26,7 +26,7 @@ if (getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT) {
 
 
 
-## multi documents, tooltip
+## multiple documents, tooltip
 
 ```java
 if (getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT) {
