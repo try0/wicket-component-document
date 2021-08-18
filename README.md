@@ -1,6 +1,7 @@
 # wicket-component-document
 
-Assists in browsing documents related to components.
+Assists in browsing documents related to components.  
+Links to source code, javadoc, wiki, and more...
 
 
 ## console
