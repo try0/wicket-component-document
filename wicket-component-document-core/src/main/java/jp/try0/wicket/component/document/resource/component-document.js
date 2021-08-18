@@ -3,6 +3,8 @@
  */
 function ComponentDocument() {
 
+    const this_ = this;
+
     /**
      * Url attribute name
      */
@@ -29,6 +31,7 @@ function ComponentDocument() {
     var activeWhilePressingAltKey = false;
 
 
+
     /**
      * Initialize ComponentDocument
      *
@@ -37,7 +40,7 @@ function ComponentDocument() {
     this.initialize = function(options = {}) {
 
         // init options
-        this.setOptions(options);
+        this_.setOptions(options);
 
         if (activeWhilePressingAltKey) {
             document.addEventListener("keydown", function(e) {
@@ -50,7 +53,7 @@ function ComponentDocument() {
             active = true;
         }
 
-        const cdocElements = this.getCdocElements();
+        const cdocElements = this_.getCdocElements();
         const bodyComponent = document.getElementsByTagName("body")[0];
 
         for (var i = 0; i < cdocElements.length; i++) {
@@ -110,7 +113,7 @@ function ComponentDocument() {
                     const url = urls[urlI];
                     const tooltipLink = document.createElement("a");
                     tooltipLink.setAttribute("href", url);
-                    tooltipLink.text = "Show";
+                    tooltipLink.text = this_.getTooltipLabel(url);
                     tooltipLink.target = "_blank";
 
                     tooltipContainer.appendChild(tooltipLink);
@@ -186,6 +189,35 @@ function ComponentDocument() {
     this.getCdocElements = function() {
         const cdocElements = document.querySelectorAll('[' + urlAttributeName + ']');
         return cdocElements;
+    }
+
+    /**
+     * Gets tooltip label.
+     * 
+     * @param  url 
+     * @returns 
+     */
+    this.getTooltipLabel = function(url) {
+        return this.extractDomainName(url);
+    }
+
+    /**
+     * 
+     * @param url 
+     * @returns 
+     */
+    this.extractDomainName = function(url) {
+        var domain;
+
+        if (url.indexOf("://") > -1) {
+            domain = url.split('/')[2];
+        } else {
+            domain = url.split('/')[0];
+        }
+        
+        domain = domain.split(':')[0];
+        domain = domain.split('?')[0];
+        return domain;
     }
 
 }
