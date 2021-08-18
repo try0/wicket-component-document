@@ -12,10 +12,10 @@ if (getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT) {
 
     ComponentDocumentSetting.createInitializer(this)
             .setDefaultOption(defaultOption)
-            // wicket-component-document-samples component document
+            // wicket-component-document-samples GitHub
             .addBaseUrl("jp.try0.wicket",
                     "https://github.com/try0/wicket-component-document/tree/main/wicket-component-document-samples/src/main/java/")
-            // wicket component document
+            // wicket GitHub
             .addBaseUrl("org.apache.wicket",
                     "https://github.com/apache/wicket/tree/wicket-8.x/wicket-core/src/main/java/")
             .initialize();
@@ -37,13 +37,13 @@ if (getConfigurationType() == RuntimeConfigurationType.DEVELOPMENT) {
 
     ComponentDocumentSetting.createInitializer(this)
             .setDefaultOption(defaultOption)
-            // wicket-component-document-samples component document
+            // wicket-component-document-samples GitHub
             .addBaseUrl("jp.try0.wicket",
                     "https://github.com/try0/wicket-component-document/tree/main/wicket-component-document-samples/src/main/java/")
-            // wicket component document
+            // wicket GitHub
             .addBaseUrl("org.apache.wicket",
                     "https://github.com/apache/wicket/tree/wicket-8.x/wicket-core/src/main/java/")
-            // wicket javadoc
+            // wicket javadoc.io
             .addBaseUrl("org.apache.wicket",
                     "https://javadoc.io/doc/org.apache.wicket/wicket-core/8.13.0/")
             .setUrlAppender(new DocumentUrlAppender() {
