@@ -1,7 +1,7 @@
 package jp.try0.wicket.component.document;
 
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -39,7 +39,7 @@ public class ComponentDocumentSetting {
 		/**
 		 * URL prefix list
 		 */
-		private Map<String, Set<String>> baseUrls = new HashMap<>();
+		private Map<String, Set<String>> baseUrls = new LinkedHashMap<>();
 		/**
 		 * Default option value
 		 */
@@ -128,7 +128,7 @@ public class ComponentDocumentSetting {
 	 * key: Package name<br>
 	 * val: Base url
 	 */
-	private Map<String, Set<String>> baseUrls = new HashMap<>();
+	private Map<String, Set<String>> baseUrls = new LinkedHashMap<>();
 
 	/**
 	 * Behavior factory
