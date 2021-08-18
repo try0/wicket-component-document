@@ -12,12 +12,18 @@ public class ComponentDocumentOption implements Serializable {
 
 	public static final String DEFAULT_URL_ATTRIBUTE_NAME = "data-cdoc-url";
 
+	public static final String DEFAULT_DESCRIPTION_ATTRIBUTE_NAME = "data-cdoc-desc";
+
 	public static final String DEFAULT_URL_DELIMITER = "|";
 
 	/**
 	 * Url attribute name
 	 */
 	private String urlAttributeName;
+	/**
+	 * Description attribute name
+	 */
+	private String descriptionAttributeName;
 	/**
 	 * Url delimiter
 	 */
@@ -46,6 +52,18 @@ public class ComponentDocumentOption implements Serializable {
 
 	public void setUrlAttributeName(String urlAttributeName) {
 		this.urlAttributeName = urlAttributeName;
+	}
+
+	public String getDescriptionAttributeName() {
+		return descriptionAttributeName;
+	}
+
+	public String getDescriptionAttributeNameOrDefault() {
+		return isNullOrEmpty(descriptionAttributeName) ? DEFAULT_DESCRIPTION_ATTRIBUTE_NAME : descriptionAttributeName;
+	}
+
+	public void setDescriptionAttributeName(String descriptionAttributeName) {
+		this.descriptionAttributeName = descriptionAttributeName;
 	}
 
 	public String getUrlDelimiter() {
@@ -94,6 +112,9 @@ public class ComponentDocumentOption implements Serializable {
 
 		if (!isNullOrEmpty(urlAttributeName)) {
 			sb.append("urlAttributeName:'").append(urlAttributeName).append("',");
+		}
+		if (!isNullOrEmpty(descriptionAttributeName)) {
+			sb.append("descriptionAttributeName:'").append(descriptionAttributeName).append("',");
 		}
 		if (!isNullOrEmpty(urlDelimiter)) {
 			sb.append("urlDelimiter:'").append(urlDelimiter).append("',");
