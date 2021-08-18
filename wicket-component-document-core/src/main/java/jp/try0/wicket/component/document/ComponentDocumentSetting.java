@@ -1,7 +1,7 @@
 package jp.try0.wicket.component.document;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -66,7 +66,7 @@ public class ComponentDocumentSetting {
 
 		public Initializer addBaseUrl(String prefixPackageName, String baserUrl) {
 
-			Set<String> urls = this.baseUrls.computeIfAbsent(prefixPackageName, k -> new HashSet<>());
+			Set<String> urls = this.baseUrls.computeIfAbsent(prefixPackageName, k -> new LinkedHashSet<>());
 			urls.add(baserUrl);
 			return this;
 		}
@@ -144,7 +144,7 @@ public class ComponentDocumentSetting {
 	}
 
 	public Set<String> getBaseUrls(String packagePrefix) {
-		return baseUrls.computeIfAbsent(packagePrefix, key -> new HashSet<>());
+		return baseUrls.computeIfAbsent(packagePrefix, key -> new LinkedHashSet<>());
 	}
 
 	public Map<String, Set<String>> getBaseUrls() {
