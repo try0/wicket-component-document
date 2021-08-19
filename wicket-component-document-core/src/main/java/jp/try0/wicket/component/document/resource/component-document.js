@@ -1,5 +1,8 @@
 /**
  * ComponentDocument
+ * 
+ * @constructor
+ * @this {ComponentDocument}
  */
 function ComponentDocument() {
 
@@ -7,31 +10,31 @@ function ComponentDocument() {
     const util = new ComponentDocumentUtil;
 
     /**
-     * Url attribute name
+     * @type {string} Url attribute name
      */
     var urlAttributeName = "data-cdoc-url";
     /**
-     * Description attribute name
+     * @type {string} Description attribute name
      */
     var descriptionAttributeName = "data-cdoc-desc";
     /**
-     * Url delimiter
+     * @type {string} Url delimiter
      */
     var urlDelimiter = "|";
     /**
-     * Enebaled output urls
+     * @type {boolean} Enebaled output urls
      */
     var active = false;
     /**
-     * Outputs url to console
+     * @type {boolean} Outputs url to console
      */
     var outputLog = true;
     /**
-     * Outputs url as tooltip
+     * @type {boolean} Outputs url as tooltip
      */
     var tooltip = false;
     /**
-     * Enabled while pressing key
+     * @type {boolean} Enabled while pressing key
      */
     var activeWhilePressingKey = false;
 
@@ -40,7 +43,7 @@ function ComponentDocument() {
     /**
      * Initializes ComponentDocument.
      *
-     * @param {} options
+     * @param {Object} options
      */
     this.initialize = function (options = {}) {
 
@@ -154,7 +157,7 @@ function ComponentDocument() {
     /**
      * Sets option values.
      *
-     * @param {} options
+     * @param {Object} options
      */
     this.setOptions = function (options) {
 
@@ -228,7 +231,7 @@ function ComponentDocument() {
     /**
      * Gets tooltip label.
      * 
-     * @param String url 
+     * @param {string} url 
      * @returns 
      */
     this.getTooltipLabel = function (url) {
@@ -237,7 +240,7 @@ function ComponentDocument() {
 
     /**
      * 
-     * @param KeyboardEvent e 
+     * @param {KeyboardEvent} e 
      * @returns 
      */
     this.isActiveKey = function (e) {
@@ -249,11 +252,11 @@ function ComponentDocument() {
      * Utilities
      */
     function ComponentDocumentUtil() {
-        
+
         /**
          * Extracts domain name.
          * 
-         * @param String url 
+         * @param {string} url 
          * @returns 
          */
         this.extractDomainName = function (url) {
@@ -270,6 +273,11 @@ function ComponentDocument() {
             return domain;
         }
 
+        /**
+         * 
+         * @param {Object} obj 
+         * @returns 
+         */
         this.isNullOrUndefined = function (obj) {
             return obj === undefined || obj === null;
         };
