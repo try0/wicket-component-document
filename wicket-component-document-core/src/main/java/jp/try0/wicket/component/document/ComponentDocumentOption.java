@@ -38,9 +38,9 @@ public class ComponentDocumentOption implements Serializable {
 	 */
 	private Boolean tooltip;
 	/**
-	 * Enabled output urls while pressing alt key
+	 * Enabled output urls while pressing key
 	 */
-	private Boolean activeWhilePressingAltKey;
+	private Boolean activeWhilePressingKey;
 
 	public String getUrlAttributeName() {
 		return urlAttributeName;
@@ -94,12 +94,12 @@ public class ComponentDocumentOption implements Serializable {
 		this.tooltip = tooltip;
 	}
 
-	public Boolean isEnabledActiveWhilePressingAltKey() {
-		return activeWhilePressingAltKey;
+	public Boolean isEnabledActiveWhilePressingKey() {
+		return activeWhilePressingKey;
 	}
 
-	public void setEnabledActiveWhilePressingAltKey(Boolean activeWhilePressingAltKey) {
-		this.activeWhilePressingAltKey = activeWhilePressingAltKey;
+	public void setEnabledActiveWhilePressingKey(Boolean activeWhilePressingKey) {
+		this.activeWhilePressingKey = activeWhilePressingKey;
 	}
 
 	boolean isNullOrEmpty(String str) {
@@ -125,8 +125,8 @@ public class ComponentDocumentOption implements Serializable {
 		if (tooltip != null) {
 			sb.append("tooltip:").append(tooltip).append(",");
 		}
-		if (activeWhilePressingAltKey != null) {
-			sb.append("activeWhilePressingAltKey:").append(activeWhilePressingAltKey).append(",");
+		if (activeWhilePressingKey != null) {
+			sb.append("activeWhilePressingKey:").append(activeWhilePressingKey).append(",");
 		}
 
 		sb.append("}");

@@ -13,7 +13,7 @@ function ComponentDocument() {
     /**
      * Description attribute name
      */
-    var descriptionAttributeName = "data-cdoc-desc"
+    var descriptionAttributeName = "data-cdoc-desc";
     /**
      * Url delimiter
      */
@@ -31,9 +31,9 @@ function ComponentDocument() {
      */
     var tooltip = false;
     /**
-     * Enabled output urls while pressing alt key
+     * Enabled while pressing key
      */
-    var activeWhilePressingAltKey = false;
+    var activeWhilePressingKey = false;
 
 
 
@@ -47,19 +47,22 @@ function ComponentDocument() {
         // init options
         cdoc.setOptions(options);
 
-        if (activeWhilePressingAltKey) {
+
+        const bodyComponent = document.getElementsByTagName("body")[0];
+
+        if (activeWhilePressingKey) {
             document.addEventListener("keydown", function (e) {
-                active = e.altKey;
+                active = cdoc.isActiveKey(e);
             });
             document.addEventListener("keyup", function (e) {
-                active = e.altKey;
+                active = false;
             });
         } else {
             active = true;
         }
 
         const cdocElements = cdoc.getCdocElements();
-        const bodyComponent = document.getElementsByTagName("body")[0];
+
 
         for (var i = 0; i < cdocElements.length; i++) {
             const targetComponent = cdocElements[i];
@@ -174,8 +177,8 @@ function ComponentDocument() {
         if (!util.isNullOrUndefined(options["tooltip"])) {
             tooltip = options["tooltip"];
         }
-        if (!util.isNullOrUndefined(options["activeWhilePressingAltKey"])) {
-            activeWhilePressingAltKey = options["activeWhilePressingAltKey"];
+        if (!util.isNullOrUndefined(options["activeWhilePressingKey"])) {
+            activeWhilePressingKey = options["activeWhilePressingKey"];
         }
 
     }
@@ -225,11 +228,20 @@ function ComponentDocument() {
     /**
      * Gets tooltip label.
      * 
-     * @param  url 
+     * @param String url 
      * @returns 
      */
     this.getTooltipLabel = function (url) {
         return util.extractDomainName(url);
+    }
+
+    /**
+     * 
+     * @param KeyboardEvent e 
+     * @returns 
+     */
+    this.isActiveKey = function (e) {
+        return e.ctrlKey;
     }
 
 
@@ -241,7 +253,7 @@ function ComponentDocument() {
         /**
          * Extracts domain name.
          * 
-         * @param url 
+         * @param String url 
          * @returns 
          */
         this.extractDomainName = function (url) {
