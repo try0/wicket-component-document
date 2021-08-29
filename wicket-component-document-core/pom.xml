@@ -9,12 +9,15 @@
 	</parent>
 	<artifactId>wicket-component-document-core</artifactId>
 
+	<name>wicket-component-document-core</name>
+	<url>https://github.com/try0/wicket-component-document</url>
+	<description>Assists in browsing documents related to components.</description>
+
 	<dependencies>
 		<!-- WICKET DEPENDENCIES -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-core</artifactId>
-			<version>${wicket.version}</version>
 		</dependency>
 	</dependencies>
 
